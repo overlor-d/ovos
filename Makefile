@@ -19,7 +19,7 @@ run: boot
 	-serial mon:stdio
 
 debug : boot
-	qemu-system-i386 \
+	qemu-system-x86_64 \
 	-machine type=pc,accel=tcg \
 	-drive file=./iso/boot/boot.img,format=raw,if=ide \
 	-no-reboot \
