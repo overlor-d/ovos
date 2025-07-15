@@ -18,3 +18,18 @@ Utilisation :
 `make clean` nettoi les fichiers poubelles.
 
 Utilise nasm pour la compilation et qemu pour la virtualisation.
+
+Qemu options :
+| Option              | Effet                                                             |
+| ------------------- | ----------------------------------------------------------------- |
+| `-cdrom output.iso` | Démarre ton OS ISO                                                |
+| `-m 64M`            | Alloue 64 Mio de RAM (modifie si besoin)                          |
+| `-cpu max`          | Donne toutes les fonctionnalités CPU sans rien d’autre            |
+| `-nodefaults`       | **Supprime tous les périphériques par défaut** (USB, écran, etc.) |
+| `-nographic`        | Pas d’interface graphique QEMU (utile pour script ou serveur)     |
+| `-serial stdio`     | Redirige la **sortie série (COM1)** vers le terminal              |
+| `-no-reboot`        | Ne redémarre pas automatiquement en cas d’erreur                  |
+| `-no-acpi`          | Désactive ACPI (gestion d’alimentation et périphériques)          |
+| `-usb off`          | Pas de contrôleur USB                                             |
+| `-soundhw none`     | Pas de carte son                                                  |
+| `-net none`         | Pas de carte réseau                                               |
