@@ -7,7 +7,7 @@ Actuellement :
 
 - Sur le mode protégé on passe à 4go de ram de la segmentation sur la protection mémoire ainsi que de la pagination sur MMU. Egalement accès au multitaches, aux anneeaux de privilège et aux interuption protégées.
 
-- passage en mode long pas encore fait.
+- prise en charge du passage en mode long via un bootloader en deux parties.
 
 
 Utilisation :
