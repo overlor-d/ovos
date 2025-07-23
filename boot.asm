@@ -16,7 +16,7 @@ start:
     mov ah, 0x02
     mov al, STAGE2_SECTORS
     mov ch, 0
-    mov cl, 2
+    mov cl, 1
     mov dh, 0
     ; drive number is already in DL
     int 0x13
@@ -25,7 +25,10 @@ start:
     jmp 0x8000:0
 
 .disk_error:
-    jmp .disk_error
+    mov ah, 0x0E
+    mov al, 'E'
+    int 0x10
+    jmp $
 
 STAGE2_SECTORS equ 25
 

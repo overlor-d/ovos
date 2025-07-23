@@ -1,0 +1,4 @@
+gdb -ex 'target remote :1234'
+break *adress
+continue
+display /1i $pc //affiche les instructions assembleurs affectué
