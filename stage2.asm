@@ -2,8 +2,15 @@
 [bits 16]
 
 stage2_start:
+    mov ah, 0x0E
+    mov al, 'O'
+    int 0x10
+
+    mov al, 'K'
+    int 0x10
+
     cli
-    xor ax, ax
+    xor ax, 0x8000
     mov ds, ax
     mov es, ax
     mov ss, ax
@@ -49,6 +56,7 @@ protected_mode:
 long_mode:
     mov rax, 0xDEADBEEFCAFEBABE
     mov [0x100000], rax
+    
 .hang:
     hlt
     jmp .hang

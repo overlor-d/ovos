@@ -9,6 +9,13 @@ start:
     mov ss, ax
     mov sp, 0x7C00
 
+    mov ah, 0x0E
+    mov al, 'O'
+    int 0x10
+
+    mov al, 'K'
+    int 0x10
+
     ; load stage2 after this sector
     mov ax, 0x8000
     mov es, ax
@@ -16,7 +23,7 @@ start:
     mov ah, 0x02
     mov al, STAGE2_SECTORS
     mov ch, 0
-    mov cl, 1
+    mov cl, 2
     mov dh, 0
     ; drive number is already in DL
     int 0x13
