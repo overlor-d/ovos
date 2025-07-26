@@ -4,7 +4,7 @@ all: run
 
 boot:
 	mkdir -p iso/boot
-	nasm -f bin boot.asm -o stage1.bin
+	nasm -f bin stage1.asm -o stage1.bin
 	nasm -f bin stage2.asm -o stage2.bin
 	cat stage1.bin stage2.bin > iso/boot/boot.img
 	@test `stat --format="%s" stage1.bin` -eq 512 || (echo "boot.img doit faire 512 octets"; exit 1)
@@ -13,12 +13,9 @@ boot:
 
 run: boot
 	qemu-system-x86_64 \
-	-machine type=pc,accel=tcg \
-	-m 16M \
-	-drive file=./iso/boot/boot.img,format=raw,if=ide \
-	-no-reboot \
-	-no-shutdown \
-	-serial mon:stdio
+	-drive file=./iso/boot/boot.img,format=raw,index=0,media=disk \
+	-m 512M \
+	-boot c
 
 debug : boot
 	qemu-system-x86_64 \

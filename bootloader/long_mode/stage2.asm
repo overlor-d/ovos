@@ -113,5 +113,5 @@ pml4_pdpt:
 
 align 4096
 pd_table:
-    dq 0x0000000000000083
+    dq 0x0000000000000083  ; 2 MiB page, P=1, RW=1, PS=1
     times 511 dq 0
