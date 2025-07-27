@@ -33,6 +33,6 @@ Qemu options :
 | `-soundhw none`     | Pas de carte son                                                  |
 | `-net none`         | Pas de carte réseau                                               |
 
-Plage mémoire mappé sur 2 MiB de 0x00000000 à 0x0001FFFF
+Plage mémoire mappé sur 16 MiB de 0x00000000 à 0x0001FFFF
 
 Mémoire réservée sur 32 secteurs de 512 octets ce qui fait 162384 octets de réservé pour les deux stages appel bios 13h.
