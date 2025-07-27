@@ -9,7 +9,6 @@ Actuellement :
 
 - prise en charge du passage en mode long via un bootloader en deux parties.
 
-
 Utilisation :
 `make` pour lancer en mode normal dans une fenêtre l'os afin de le tester.
 `make debug` pour tester avec gdb et analyser la mémoire en direct.
@@ -33,3 +32,7 @@ Qemu options :
 | `-usb off`          | Pas de contrôleur USB                                             |
 | `-soundhw none`     | Pas de carte son                                                  |
 | `-net none`         | Pas de carte réseau                                               |
+
+Plage mémoire mappé sur 2 MiB de 0x00000000 à 0x0001FFFF
+
+Mémoire réservée sur 32 secteurs de 512 octets ce qui fait 162384 octets de réservé pour les deux stages appel bios 13h.

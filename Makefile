@@ -21,10 +21,9 @@ debug : boot
 	qemu-system-x86_64 \
 	-machine type=pc,accel=tcg \
 	-drive file=./iso/boot/boot.img,format=raw,if=ide \
-	-no-reboot \
-	-no-shutdown \
+	-m 512M \
 	-s -S \
-	-vga std
+	-boot c
 
 clean:
 	rm -f ovos.iso
@@ -38,3 +37,6 @@ stat:
 signature:
 	@echo "Signature du boot.img (attendue : 55aa) :"
 	@od -An -t x1 -j 510 -N 2 stage1.bin | tr -d " " | tr -d "\n"
+
+kernel:
+	x86_64-elf-gcc -ffreestanding -m64 -c mdoules/kernel.c -o kernel.o
