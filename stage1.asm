@@ -2,6 +2,7 @@
 ORG 0x7C00
 
 start:
+    ; suppression du curseur blanc en bas
     mov ah, 0x01
     mov ch, 0x20
     mov cl, 0x00
@@ -15,7 +16,7 @@ start:
     mov [boot_drive], dl
 
     mov ah, 0x02
-    mov al, 32
+    mov al, 64
     mov ch, 0
     mov cl, 2
     mov dh, 0

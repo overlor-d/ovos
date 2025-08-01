@@ -7,6 +7,19 @@ start:
     mov ds, ax
     mov es, ax
 
+    ; chargement kernel
+    mov [boot_drive], dl
+
+    mov ah, 0x02
+    mov al, 64
+    mov ch,0
+    mov cl, 66
+    mov dh, 0
+    mov dl, [boot_drive]
+    mov bx, 0x11000
+    int 0x13
+    jc .disk_error
+
     call enable_a20
 
     lgdt [gdtr]
@@ -15,6 +28,12 @@ start:
     or  eax, 1
     mov cr0, eax
     jmp 0x08:prot_entry
+
+.disk_error:
+    hlt
+    jmp .disk_error
+
+boot_drive db 0
 
 enable_a20:
     in   al, 0x64
@@ -123,4 +142,4 @@ pd_table:
     dq 0x0000000000E00083
     times 504 dq 0
 
-times 16384 - ($ - $$) dq 0
+times 32768 - ($ - $$) db 0
