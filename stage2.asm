@@ -1,3 +1,4 @@
+; stage2.asm — Chargement du kernel via INT 13h étendu (LBA)
 [BITS 16]
 ORG 0x8000
 
@@ -7,23 +8,21 @@ start:
     mov ds, ax
     mov es, ax
 
-    ; chargement kernel
     mov [boot_drive], dl
 
-    mov ah, 0x02
-    mov al, 64
-    mov ch,0
-    mov cl, 66
-    mov dh, 0
+    ; --- Lecture du kernel (64 secteurs) à 0x10000 via LBA étendu ---
     mov dl, [boot_drive]
-    mov bx, 0x11000
+    mov ax, 0x1000
+    mov es, ax
+    xor bx, bx
+    mov si, dap
+    mov ah, 0x42
     int 0x13
     jc .disk_error
 
     call enable_a20
 
     lgdt [gdtr]
-
     mov eax, cr0
     or  eax, 1
     mov cr0, eax
@@ -34,6 +33,15 @@ start:
     jmp .disk_error
 
 boot_drive db 0
+
+align 4
+dap:
+    db 0x10        ; taille du packet en octets
+    db 0           ; réservé (doit être à zéro)
+    dw 64          ; nombre de secteurs à lire (AL de INT 13h AH=42 attend un mot ici)
+    dw 0           ; offset (BX) où écrire les données une fois lues
+    dw 0x1000      ; segment (ES) où écrire les données (ici → 0x1000:0 = 0x10000)
+    dq 65          ; LBA de départ, sur 8 octets (secteur logique 65)
 
 enable_a20:
     in   al, 0x64
@@ -56,7 +64,6 @@ enable_a20:
 
 [BITS 32]
 prot_entry:
-    ;— Segments plats
     mov ax, 0x10
     mov ds, ax
     mov es, ax
@@ -102,6 +109,8 @@ long_entry:
     mov   [0xB8000], ax
     mov   ax, 'K' | (0x02 << 8)
     mov   [0xB8000+2], ax
+
+    jmp 0x10000
 
 .hang:
     hlt
