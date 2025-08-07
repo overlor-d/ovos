@@ -16,7 +16,7 @@ start:
     mov [boot_drive], dl
 
     mov ah, 0x02
-    mov al, 64
+    mov al, 127
     mov ch, 0
     mov cl, 2
     mov dh, 0

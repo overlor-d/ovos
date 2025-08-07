@@ -7,8 +7,8 @@ boot:
 	nasm -f bin stage1.asm -o stage1.bin
 	nasm -f bin stage2.asm -o stage2.bin
 
-	# Vérifie que stage2.bin ne dépasse pas 64 secteurs (32768 octets)
-	@test `stat --format="%s" stage2.bin` -le 32768 || (echo "stage2.bin dépasse 64 secteurs (32 Ko max)"; exit 1)
+	# Vérifie que stage2.bin ne dépasse pas 64 secteurs (65024 octets)
+	@test `stat --format="%s" stage2.bin` -le 65024 || (echo "stage2.bin dépasse 64 secteurs (64 Ko max)"; exit 1)
 
 	cat stage1.bin stage2.bin ./modules/kernel.bin > iso/boot/boot.img
 
@@ -18,7 +18,7 @@ boot:
 	# Vérifie la signature BIOS à la fin de stage1.bin
 	@test "`od -An -t x1 -j 510 -N 2 stage1.bin | tr -d ' ' | tr -d '\n'`" = "55aa" || (echo "Signature boot manquante dans stage1.bin"; exit 1)
 
-	@echo "boot.img est valide (stage1 + stage2)"
+	@echo "boot.img est valide (stage1 + stage2 + kernel)"
 
 run: boot
 	qemu-system-x86_64 \

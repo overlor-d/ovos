@@ -12,13 +12,15 @@ start:
 
     ; --- Lecture du kernel (64 secteurs) à 0x10000 via LBA étendu ---
     mov dl, [boot_drive]
-    mov ax, 0x1000
+    mov ax, 0x2000
     mov es, ax
     xor bx, bx
     mov si, dap
     mov ah, 0x42
     int 0x13
     jc .disk_error
+
+    ; --- Récupération des informations mémoire
 
     call enable_a20
 
@@ -40,8 +42,8 @@ dap:
     db 0           ; réservé (doit être à zéro)
     dw 64          ; nombre de secteurs à lire (AL de INT 13h AH=42 attend un mot ici)
     dw 0           ; offset (BX) où écrire les données une fois lues
-    dw 0x1000      ; segment (ES) où écrire les données (ici → 0x1000:0 = 0x10000)
-    dq 65          ; LBA de départ, sur 8 octets (secteur logique 65)
+    dw 0x2000      ; segment (ES) où écrire les données (ici → 0x2000:0 = 0x20000)
+    dq 128          ; LBA de départ, sur 8 octets (secteur logique 65)
 
 enable_a20:
     in   al, 0x64
@@ -110,7 +112,7 @@ long_entry:
     mov   ax, 'K' | (0x02 << 8)
     mov   [0xB8000+2], ax
 
-    jmp 0x10000
+    jmp 0x20000
 
 .hang:
     hlt
@@ -151,4 +153,4 @@ pd_table:
     dq 0x0000000000E00083
     times 504 dq 0
 
-times 32768 - ($ - $$) db 0
+times 65024 - ($ - $$) db 0
