@@ -35,4 +35,6 @@ Qemu options :
 
 Plage mémoire mappé sur 16 MiB de 0x00000000 à 0x000EFFFF
 
-Mémoire réservée sur 64 secteurs de 512 octets ce qui fait 32768 octets de réservé pour les deux stages appel bios 13h. De 0x8000 à 
+Mémoire réservée sur 64 secteurs de 512 octets ce qui fait 32768 octets de réservé pour les deux stages appel bios 13h. 
+
+stage 2 sur 64 secteur de l'adresse 0x8000 à 0xFFFF
